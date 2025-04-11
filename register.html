@@ -252,38 +252,32 @@
         function showModal() {
             document.getElementById('successModal').style.display = 'flex';
         }
-
         function closeModal() {
             document.getElementById('successModal').style.display = 'none';
         }
-
         document.getElementById('registrationForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = e.target.querySelector('button');
-
             try {
                 submitBtn.disabled = true;
                 submitBtn.textContent = 'Submitting...';
-
                 const formData = {
                     name: e.target.name.value,
                     email: e.target.email.value,
                     phone: e.target.phone.value
                 };
-
-                const response = await fetch('https://script.google.com/macros/s/AKfycbzdDe5IBNyPcrp1m9J197zG7hvyyimBzNgntQYFohnuBmCQP3WGRYZY676QYgXYjNr-/exec', {
+                const response = await fetch('https://script.google.com/macros/s/AKfycbxu4PGipdQ8CsUuQEnHVIo14yYQr4e6jeDRyVCCwkZW938C6DzFYpQgdsMeqO-MfaGZ/exec', { // Replace {YOUR_SCRIPT_ID} with your actual script ID
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(formData)
                 });
-
                 if (!response.ok) throw new Error('Submission failed');
-
                 const result = await response.json();
-
                 if (result.status === 'success') {
                     showModal();
                     e.target.reset();
+                } else {
+                    alert('Error: ' + result.message);
                 }
             } catch (error) {
                 alert('Error: ' + error.message);
